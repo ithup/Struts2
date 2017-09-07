@@ -5,30 +5,30 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
- * hibernate¹¤¾ßÀà
+ * hibernateå·¥å…·ç±»
  * @author acer
  *
  */
 public class HibernateUtils {
 	public static final Configuration CONFIGURATION;
 	public static final SessionFactory FACTORY;
-	//±àĞ´¾²Ì¬´úÂë¿é
+	//ç¼–å†™é™æ€ä»£ç å—
 	static{
-		//¼ÓÔØxmlÅäÖÃÎÄ¼ş
+		//åŠ è½½xmlé…ç½®æ–‡ä»¶
 		CONFIGURATION = new Configuration().configure();
-		//¹¹Ôì¹¤³§
+		//æ„é€ å·¥å‚
 		FACTORY = CONFIGURATION.buildSessionFactory();
 	}
 	
 	/**
-	 * ´´½¨Á¬½ÓsessionµÄ¶ÔÏó
+	 * åˆ›å»ºè¿æ¥sessionçš„å¯¹è±¡
 	 * @return
 	 */
 	public static Session getSession(){
 		return FACTORY.openSession();
 	}
 	/**
-	 * // ´ÓThreadLocalÀàÖĞ»ñÈ¡µ½sessionµÄ¶ÔÏó
+	 * // ä»ThreadLocalç±»ä¸­è·å–åˆ°sessionçš„å¯¹è±¡
 	 * @return
 	 */
 	public static Session getCurrentSession(){

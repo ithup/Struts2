@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+encoding//src/com/ithup/dao/CustomerDao.java=UTF-8
+encoding//src/com/ithup/service/CustomerService.java=UTF-8
+encoding//src/com/ithup/utils/HibernateUtils.java=UTF-8
