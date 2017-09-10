@@ -4,45 +4,49 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<!-- 包结构 -->
-	<!-- <package name="demo1" namespace="/" extends="struts-default"> 配置Action 
-		<action name="hello" class="com.ithup.action.HelloAction" method="sayHello"> 
-		<result name="ok">/demo/success.jsp</result> </action> </package> -->
 	<package name="crm" namespace="/" extends="struts-default">
 		<!-- 定义拦截器 -->
 		<interceptors>
-			<interceptor name="loginInter"
-				class="com.ithup.interceptor.LoginInterceptor" />
-			<interceptor-stack name="myInterceptor">
-				<interceptor-ref name="loginInter" />
-				<interceptor-ref name="defaultStack" />
-			</interceptor-stack>
+			<interceptor name="UserInterceptor" class="com.ithup.interceptor.UserInterceptor"></interceptor>
+			<!-- <interceptor-stack name="userDefinedInterceptor">
+				<interceptor-ref name="UserInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack> -->
 		</interceptors>
+		<!-- 全局结果页面针对的当前的包中的所有的Action，但是如果局部还有结果页面，会优先局部的 -->
+		<global-results>
+			<result name="error">/index.jsp</result>
+			<result name="login">/login.jsp</result>
+		</global-results>
 		<!-- 配置用户的模块 -->
 		<action name="user_*" class="com.ithup.action.UserAction"
 			method="{1}">
-			<interceptor-ref name="myInterceptor" />
 			<result name="success">/index.jsp</result>
-			<result name="login">/login.jsp</result>
+			<interceptor-ref name="UserInterceptor">
+				<!-- login方法不拦截 -->
+				<param name="excludeMethods">login</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 		<!-- 客户的模块 -->
 		<action name="customer_*" class="com.ithup.action.CustomerAction"
 			method="{1}">
-			<interceptor-ref name="myInterceptor" />
 			<result name="customerList">/jsp/customer/list.jsp</result>
 			<result type="redirectAction" name="custList">
 				customer_findAll
 			</result>
 			<!-- 重新发起一次查询： 使用重定向 -->
+			<interceptor-ref name="UserInterceptor"/>
+			<interceptor-ref name="defaultStack"/>
 		</action>
 	</package>
-	<!-- <package name="demo" namespace="/" extends="struts-default"> 定义拦截器 
-		<interceptors> <interceptor name="demoInterceptor" class="com.ithup.demo.DemoInterceptor"/> 
-		</interceptors> <interceptors> <interceptor name="demoInterceptor" class="com.ithup.demo.DemoInterceptor"/> 
-		<interceptor-stack name="myInterceptor"> <interceptor-ref name="demoInterceptor"/> 
-		<interceptor-ref name="defaultStack"/> </interceptor-stack> </interceptors> 
-		<action name="demoAction" class="com.ithup.demo.DemoAction"> <interceptor-ref 
-		name="demoInterceptor"/> <interceptor-ref name="myInterceptor"/> </action> 
-		</package> -->
+	<package name="default_skip" namespace="/" extends="struts-default">
+		<default-action-ref name="actionErrorSkip">
+		</default-action-ref>
+		<action name="actionErrorSkip">
+			<result>/login.jsp</result>
+		</action>
+	</package>
 </struts>
 
 
